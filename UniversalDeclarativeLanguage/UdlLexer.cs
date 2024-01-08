@@ -24,34 +24,34 @@ internal sealed class UdlLexer
 		{
 			if (!TryReadNextChar(out char ch))
 			{
-				return new UdlToken(UdlTokenType.Eof);
+				return new UdlToken(UdlTokenKind.Eof);
 			}
 
 			switch (ch)
 			{
 				case '{':
-					return new UdlToken(UdlTokenType.LeftBrace);
+					return new UdlToken(UdlTokenKind.OpenBrace);
 				case '}':
-					return new UdlToken(UdlTokenType.RightBrace);
+					return new UdlToken(UdlTokenKind.CloseBrace);
 				case ':':
-					return new UdlToken(UdlTokenType.Colon);
+					return new UdlToken(UdlTokenKind.Colon);
 				case '=':
-					return new UdlToken(UdlTokenType.EqualSign);
+					return new UdlToken(UdlTokenKind.EqualSign);
 				case '"':
 					_stringBuilder.Clear();
 					while (TryReadNextChar(out ch))
 					{
 						if (ch == '"')
 						{
-							return new UdlToken(UdlTokenType.String, _stringBuilder.ToString());
+							return new UdlToken(UdlTokenKind.String, _stringBuilder.ToString());
 						}
 						_stringBuilder.Append(ch);
 					}
-					return new UdlToken(UdlTokenType.Invalid);
+					return new UdlToken(UdlTokenKind.Invalid);
 				case '/':
 					if (!TryReadNextChar(out ch))
 					{
-						return new UdlToken(UdlTokenType.Invalid);
+						return new UdlToken(UdlTokenKind.Invalid);
 					}
 
 					if (ch == '/')
@@ -88,7 +88,7 @@ internal sealed class UdlLexer
 						}
 						continue;
 					}
-					return new UdlToken(UdlTokenType.Invalid);
+					return new UdlToken(UdlTokenKind.Invalid);
 			}
 
 			if (char.IsLetter(ch))
@@ -118,7 +118,7 @@ internal sealed class UdlLexer
 					return new UdlToken(false);
 				}
 				
-				return new UdlToken(UdlTokenType.Identifier, identifier);
+				return new UdlToken(UdlTokenKind.Identifier, identifier);
 			}
 
 			if (char.IsNumber(ch) || ch == '-')
@@ -138,7 +138,7 @@ internal sealed class UdlLexer
 					{
 						if (wasDot)
 						{
-							return new UdlToken(UdlTokenType.Invalid);
+							return new UdlToken(UdlTokenKind.Invalid);
 						}
 
 						wasDot = true;
@@ -148,7 +148,7 @@ internal sealed class UdlLexer
 
 					if (ch == '_' || char.IsLetter(ch))
 					{
-						return new UdlToken(UdlTokenType.Invalid);
+						return new UdlToken(UdlTokenKind.Invalid);
 					}
 
 					StoreToBuffer(ch);
@@ -161,14 +161,14 @@ internal sealed class UdlLexer
 					{
 						return new UdlToken(floatNumber);
 					}
-					return new UdlToken(UdlTokenType.Invalid);
+					return new UdlToken(UdlTokenKind.Invalid);
 				}
 
 				if (int.TryParse(_stringBuilder.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out int intNumber))
 				{
 					return new UdlToken(intNumber);
 				}
-				return new UdlToken(UdlTokenType.Invalid);
+				return new UdlToken(UdlTokenKind.Invalid);
 			}
 			
 			// other characters are ignored by definition

@@ -1,6 +1,6 @@
 namespace UniversalDeclarativeLanguage;
 
-internal enum UdlTokenType
+internal enum UdlTokenKind
 {
 	Eof,
 	Identifier,
@@ -8,8 +8,8 @@ internal enum UdlTokenType
 	IntNumber,
 	FloatNumber,
 	Bool,
-	LeftBrace,
-	RightBrace,
+	OpenBrace,
+	CloseBrace,
 	Colon,
 	EqualSign,
 	Invalid,

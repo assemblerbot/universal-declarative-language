@@ -17,13 +17,13 @@ public sealed class UdlParser
 		_lexer = new(source);
 
 		_token = _lexer.NextToken();
-		if (_token.Type == UdlTokenType.Eof)
+		if (_token.Kind == UdlTokenKind.Eof)
 		{
 			return null;
 		}
 
 		UdlNode node = Node();
-		if (_token.Type != UdlTokenType.Eof)
+		if (_token.Kind != UdlTokenKind.Eof)
 		{
 			throw new UdlParserError($"End of file expected at {_lexer.PositionString}");
 		}
@@ -44,7 +44,7 @@ public sealed class UdlParser
 
 	private string Keyword()
 	{
-		if (_token.Type != UdlTokenType.Identifier)
+		if (_token.Kind != UdlTokenKind.Identifier)
 		{
 			throw new UdlParserError($"Missing identifier at {_lexer.PositionString}");
 		}
@@ -56,7 +56,7 @@ public sealed class UdlParser
 
 	private string? Name()
 	{
-		if (_token.Type != UdlTokenType.String)
+		if (_token.Kind != UdlTokenKind.String)
 		{
 			return null;
 		}
@@ -68,13 +68,13 @@ public sealed class UdlParser
 
 	private string? Type()
 	{
-		if (_token.Type != UdlTokenType.Colon)
+		if (_token.Kind != UdlTokenKind.Colon)
 		{
 			return null;
 		}
 
 		_token = _lexer.NextToken();
-		if (_token.Type == UdlTokenType.Eof)
+		if (_token.Kind == UdlTokenKind.Eof)
 		{
 			throw new UdlParserError($"Missing identifier at {_lexer.PositionString}");
 		}
@@ -86,23 +86,23 @@ public sealed class UdlParser
 
 	private object? Value()
 	{
-		if (_token.Type != UdlTokenType.EqualSign)
+		if (_token.Kind != UdlTokenKind.EqualSign)
 		{
 			return null;
 		}
 
 		_token = _lexer.NextToken();
-		if (_token.Type == UdlTokenType.Eof)
+		if (_token.Kind == UdlTokenKind.Eof)
 		{
 			throw new UdlParserError($"Missing value at {_lexer.PositionString}");
 		}
 
-		object? value = _token.Type switch
+		object? value = _token.Kind switch
 		{
-			UdlTokenType.String      => _token.Value,
-			UdlTokenType.IntNumber   => _token.IntValue,
-			UdlTokenType.FloatNumber => _token.FloatValue,
-			UdlTokenType.Bool        => _token.BoolValue,
+			UdlTokenKind.String      => _token.Value,
+			UdlTokenKind.IntNumber   => _token.IntValue,
+			UdlTokenKind.FloatNumber => _token.FloatValue,
+			UdlTokenKind.Bool        => _token.BoolValue,
 			_ => throw new UdlParserError($"Invalid value at {_lexer.PositionString}")
 		};
 
@@ -112,19 +112,19 @@ public sealed class UdlParser
 
 	private List<UdlNode>? Block()
 	{
-		if (_token.Type != UdlTokenType.LeftBrace)
+		if (_token.Kind != UdlTokenKind.OpenBrace)
 		{
 			return null;
 		}
 		_token = _lexer.NextToken();
 
-		if (_token.Type == UdlTokenType.Eof)
+		if (_token.Kind == UdlTokenKind.Eof)
 		{
 			throw new UdlParserError($"Missing }} at {_lexer.PositionString}");
 		}
 
 		List<UdlNode> block = new();
-		while (_token.Type != UdlTokenType.RightBrace)
+		while (_token.Kind != UdlTokenKind.CloseBrace)
 		{
 			block.Add(Node());
 		}
