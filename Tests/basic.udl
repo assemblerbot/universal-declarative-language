@@ -1,0 +1,41 @@
+basic
+{
+	string_keyword "String about apple" : string = "Apple is red."
+	bool_keyword "Bool that is true" : bool = true
+	bool_keyword "Bool that is false" : bool = false
+	int_keyword "Int number 1234" : int = 1234
+	int_keyword "Int number -1234" : int = -1234
+	float_keyword "Float number 12.34" : float = 12.34
+	float_keyword "Float number -12.34" : float = -12.34
+
+	nothing
+	name "Name"
+	type : Type
+	value = 342
+	name_type "Name" : Type
+	name_value "Name" = 1234
+	type_value : Type = 4567
+
+	children "Node with children" : float = -12.34
+	{
+		string_keyword "String about apple" : string = "Apple is red."
+		{
+			bool_keyword "Bool that is true" : bool = true
+		}
+		
+		bool_keyword "Bool that is false" : bool = false
+		{
+			int_keyword "Int number 1234" : int = 1234
+		}
+	
+		int_keyword "Int number -1234" : int = -1234
+		{
+			float_keyword "Float number 12.34" : float = 12.34
+			{
+				float_keyword "Float number -12.34" : float = -12.34
+			}
+		}
+	}
+
+	delimiters{a=1,b=2;c=3|d=4\e=5*f g~h%!@#$i(j}
+}

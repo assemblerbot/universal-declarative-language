@@ -1,0 +1,42 @@
+shader "myshaders/myshader name"
+{
+    // properties block
+	properties
+	{
+		_Tint "Tint" : color {r=1,g=1,b=1,a=1}
+		_MainTex "Main texture" : texture2D = "white"
+		_IgnoreFx "Ignore FX" : bool = false
+		_MaxLightsCount "Max lights count" : int = 12
+	}
+
+    /*
+    subshader block
+    */
+	subshader
+	{
+		tags
+		{
+			Queue = "transparent"
+			RenderType = "transparent"
+			RenderPipeline = "universal"
+		}
+
+		BlendFg = "SrcAlpha"
+		BlendBg = "OneMinusSrcAlpha"
+		Cull = "back"
+		OffsetDepth = -1
+		ZTest = "LessOrEqual"
+
+		pass
+		{
+			define "SOFTSHADOWS"
+			define "AFFECT_BY_FOG"
+			define "IS_TRANSPARENT"
+
+			vertex_shader = "vert"
+			pixel_shader = "frag"
+
+			include_hlsl "Shaders/shader.hlsl"
+		}
+	}
+}
