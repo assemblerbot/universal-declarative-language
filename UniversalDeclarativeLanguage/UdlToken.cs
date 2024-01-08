@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace UniversalDeclarativeLanguage;
 
-public readonly struct UdlToken
+internal readonly struct UdlToken
 {
 	public readonly UdlTokenType Type = UdlTokenType.Invalid;
 	

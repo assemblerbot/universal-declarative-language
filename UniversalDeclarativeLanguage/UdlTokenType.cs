@@ -1,6 +1,6 @@
 namespace UniversalDeclarativeLanguage;
 
-public enum UdlTokenType
+internal enum UdlTokenType
 {
 	Eof,
 	Identifier,

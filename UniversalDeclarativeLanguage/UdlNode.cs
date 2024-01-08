@@ -31,6 +31,7 @@ public sealed class UdlNode
 		Children = children;
 	}
 
+	// for debug purposes
 	public override string ToString()
 	{
 		StringBuilder stringBuilder = new();
@@ -54,19 +55,19 @@ public sealed class UdlNode
 		}
 		else
 		{
-			stringBuilder.Append("[");
+			stringBuilder.Append('[');
 			for(int i=0;i<Children.Count;++i)
 			{
 				if (i > 0)
 				{
-					stringBuilder.Append(", ");
+					stringBuilder.Append(',');
 				}
 				stringBuilder.Append(Children[i]);
 			}
-			stringBuilder.Append("]");
+			stringBuilder.Append(']');
 		}
 
-		stringBuilder.Append("\n");
+		stringBuilder.Append('\n');
 		return stringBuilder.ToString();
 	}
 }

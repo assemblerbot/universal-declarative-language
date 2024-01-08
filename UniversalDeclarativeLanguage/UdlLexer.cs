@@ -9,6 +9,7 @@ internal sealed class UdlLexer
 	private          int           _line          = 1;
 	private          int           _column        = 1;
 	private readonly StringBuilder _stringBuilder = new();
+	private          char          _readBuffer = '\0';
 
 	public string PositionString => $"line: {_line} column: {_column}";
 
@@ -102,7 +103,7 @@ internal sealed class UdlLexer
 						continue;
 					}
 
-					_source.Position -= 1;
+					StoreToBuffer(ch);
 					break;
 				}
 
@@ -150,7 +151,7 @@ internal sealed class UdlLexer
 						return new UdlToken(UdlTokenType.Invalid);
 					}
 
-					_source.Position -= 1;
+					StoreToBuffer(ch);
 					break;
 				}
 
@@ -176,6 +177,13 @@ internal sealed class UdlLexer
 
 	private bool TryReadNextChar(out char ch)
 	{
+		if (_readBuffer != '\0')
+		{
+			ch          = _readBuffer;
+			_readBuffer = '\0';
+			return true;
+		}
+
 		int b = _source.ReadByte();
 		if (b == -1)
 		{
@@ -195,5 +203,10 @@ internal sealed class UdlLexer
 		}
 
 		return true;
+	}
+
+	private void StoreToBuffer(char ch)
+	{
+		_readBuffer = ch;
 	}
 }
