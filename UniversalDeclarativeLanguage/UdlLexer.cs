@@ -6,11 +6,13 @@ namespace UniversalDeclarativeLanguage;
 internal sealed class UdlLexer
 {
 	private readonly Stream        _source;
-	private          int           _line          = 1;
 	private          int           _column        = 1;
+	private          int           _line          = 1;
 	private readonly StringBuilder _stringBuilder = new();
-	private          char          _readBuffer = '\0';
+	private          char          _readBuffer    = '\0';
 
+	public int    Column         => _column;
+	public int    Line           => _line;
 	public string PositionString => $"line: {_line} column: {_column}";
 
 	public UdlLexer(Stream source)

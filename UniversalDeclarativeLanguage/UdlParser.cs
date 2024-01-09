@@ -33,13 +33,15 @@ public sealed class UdlParser
 
 	private UdlNode Node()
 	{
+		int            column  = _lexer.Column;
+		int            line    = _lexer.Line;
 		string         keyword = Keyword();
 		string?        name    = Name();
 		string?        type    = Type();
 		object?        value   = Value();
 		List<UdlNode>? block   = Block();
 
-		return new UdlNode(keyword, name, type, value, block);
+		return new UdlNode(keyword, name, type, value, block, column, line);
 	}
 
 	private string Keyword()

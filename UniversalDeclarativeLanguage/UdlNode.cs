@@ -4,9 +4,9 @@ namespace UniversalDeclarativeLanguage;
 
 public sealed class UdlNode
 {
-	public readonly string                  Keyword;
-	public readonly string?                 Name;
-	public readonly string?                 Type;
+	public readonly string  Keyword;
+	public readonly string? Name;
+	public readonly string? Type;
 
 	public readonly object? Value;
 	public          string? StringValue => Value as string;
@@ -16,19 +16,26 @@ public sealed class UdlNode
 	
 	public readonly IReadOnlyList<UdlNode>? Children;
 
+	public readonly int SourceColumn;	// column in source code where this node begins
+	public readonly int SourceLine;		// line in source code where this node begins
+
 	public UdlNode(
 		string                  keyword,
 		string?                 name,
 		string?                 type,
 		object?                 value,
-		IReadOnlyList<UdlNode>? children
+		IReadOnlyList<UdlNode>? children,
+		int                     sourceColumn,
+		int                     sourceLine
 	)
 	{
-		Keyword  = keyword;
-		Name     = name;
-		Type     = type;
-		Value    = value;
-		Children = children;
+		Keyword      = keyword;
+		Name         = name;
+		Type         = type;
+		Value        = value;
+		Children     = children;
+		SourceColumn = sourceColumn;
+		SourceLine   = sourceLine;
 	}
 
 	// for debug purposes
@@ -56,7 +63,7 @@ public sealed class UdlNode
 		else
 		{
 			stringBuilder.Append('[');
-			for(int i=0;i<Children.Count;++i)
+			for(int i=0;i <Children.Count;++i)
 			{
 				if (i > 0)
 				{
