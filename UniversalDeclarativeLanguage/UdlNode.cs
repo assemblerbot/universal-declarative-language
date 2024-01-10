@@ -4,7 +4,7 @@ namespace UniversalDeclarativeLanguage;
 
 public sealed class UdlNode
 {
-	public readonly string  Keyword;
+	public readonly string  Identifier;
 	public readonly string? Name;
 	public readonly string? Type;
 
@@ -16,11 +16,11 @@ public sealed class UdlNode
 	
 	public readonly IReadOnlyList<UdlNode>? Children;
 
-	public readonly int SourceColumn;	// column in source code where this node begins
-	public readonly int SourceLine;		// line in source code where this node begins
+	public readonly int SourceColumn; // column in source code where this node begins
+	public readonly int SourceLine;   // line in source code where this node begins
 
 	public UdlNode(
-		string                  keyword,
+		string                  identifier,
 		string?                 name,
 		string?                 type,
 		object?                 value,
@@ -29,7 +29,7 @@ public sealed class UdlNode
 		int                     sourceLine
 	)
 	{
-		Keyword      = keyword;
+		Identifier   = identifier;
 		Name         = name;
 		Type         = type;
 		Value        = value;
@@ -43,8 +43,8 @@ public sealed class UdlNode
 	{
 		StringBuilder stringBuilder = new();
 
-		stringBuilder.Append("Keyword:");
-		stringBuilder.Append(Keyword);
+		stringBuilder.Append("Identifier:");
+		stringBuilder.Append(Identifier);
 		
 		stringBuilder.Append(" Name:");
 		stringBuilder.Append(Name);

@@ -33,27 +33,27 @@ public sealed class UdlParser
 
 	private UdlNode Node()
 	{
-		int            column  = _lexer.Column;
-		int            line    = _lexer.Line;
-		string         keyword = Keyword();
-		string?        name    = Name();
-		string?        type    = Type();
-		object?        value   = Value();
-		List<UdlNode>? block   = Block();
+		int            column     = _lexer.Column;
+		int            line       = _lexer.Line;
+		string         identifier = Identifier();
+		string?        name       = Name();
+		string?        type       = Type();
+		object?        value      = Value();
+		List<UdlNode>? block      = Block();
 
-		return new UdlNode(keyword, name, type, value, block, column, line);
+		return new UdlNode(identifier, name, type, value, block, column, line);
 	}
 
-	private string Keyword()
+	private string Identifier()
 	{
 		if (_token.Kind != UdlTokenKind.Identifier)
 		{
 			throw new UdlParserError($"Missing identifier at {_lexer.PositionString}");
 		}
 		
-		string keyword = _token.Value!;
+		string identifier = _token.Value!;
 		_token = _lexer.NextToken();
-		return keyword;
+		return identifier;
 	}
 
 	private string? Name()
@@ -78,7 +78,7 @@ public sealed class UdlParser
 		_token = _lexer.NextToken();
 		if (_token.Kind == UdlTokenKind.Eof)
 		{
-			throw new UdlParserError($"Missing identifier at {_lexer.PositionString}");
+			throw new UdlParserError($"Missing type identifier at {_lexer.PositionString}");
 		}
 
 		string type = _token.Value!;

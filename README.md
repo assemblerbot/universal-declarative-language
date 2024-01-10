@@ -1,10 +1,13 @@
 # Universal declarative language
 Parser for universal declarative language.
 In human words the language supports just one kind of notation:
-`keyword "name" : type = value { children }` where only the `keyword` is mandatory and everything else is optional.  
+```
+identifier "name" : type = value { children }
+```
+where only the `identifier` is mandatory and everything else is optional.  
 
 Input file is parsed into tree structure of nodes where each node has:
-- keyword
+- identifier
 - optional string name
 - optional string type
 - optional value (int, float, bool or string)
@@ -34,13 +37,12 @@ identifier = character, { character | digit } ;
 bool = "true" | "false";
 string = '"' { any character - '"' } '"';
 
-keyword = identifier;
 name = string;
 type = identifier;
 value = bool | string | number;
 block = "{" { node } "}";
 
-node = keyword, [ name ], [':', type], ['=', value], [ block ];
+node = identifier, [ name ], [':', type], ['=', value], [ block ];
 
 grammar = node;
 ```
